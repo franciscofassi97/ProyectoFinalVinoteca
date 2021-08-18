@@ -4,61 +4,59 @@ import { Route, Switch } from "react-router-dom";
 
 //Material - UI
 import { Hidden, makeStyles } from "@material-ui/core";
-import Cajon from "./Cajon";
-import MenuComponent from "./MenuComponent";
+import Cajon from "./Components/MenuComponents/Cajon";
+import MenuComponent from "./Components/MenuComponents/MenuComponent";
 
 //Components
 //Components tienda
-import TiendaComponent from "../TiendaComponent";
-import CarritoComponent from "../CarritoComponent";
+import TiendaComponent from "./Components/TiendaComponent";
+import CarritoComponent from "./Components/CarritoComponent";
 
 //Componets Usuario
-import LoginComponent from "../UsuarioComponent/LoginComponent";
-import RegistroComponent from "../UsuarioComponent/RegistroComponent";
-import PerfilComponent from "../UsuarioComponent/PerfilComponent";
-import EditarPerfilComponent from "../UsuarioComponent/EditarPerfilComponent";
+import LoginComponent from "./Components/UsuarioComponent/LoginComponent";
+import RegistroComponent from "./Components/UsuarioComponent/RegistroComponent";
+import PerfilComponent from "./Components/UsuarioComponent/PerfilComponent";
+import EditarPerfilComponent from "./Components/UsuarioComponent/EditarPerfilComponent";
 
 //Componets Gestion Productos
-import ProductosCrearEditar from "../ProductosComponent/ProductosCrearEditar";
-import GestionProductosComponent from "../ProductosComponent/GestionProductosComponent";
-import ProductoVerMasComponent from "../ProductosComponent/ProductoVerMasComponent";
-import TipoVinoComponent from "../ProductosComponent/TipoVinoComponent";
-import VarietalComponent from "../ProductosComponent/VarietalComponent";
-import ProductoEditarComponent from "../ProductosComponent/ProductoEditarComponent";
+import ProductosCrearEditar from "./Components/ProductosComponent/ProductosCrearEditar";
+import GestionProductosComponent from "./Components/ProductosComponent/GestionProductosComponent";
+import ProductoVerMasComponent from "./Components/ProductosComponent/ProductoVerMasComponent";
+import ProductoEditarComponent from "./Components/ProductosComponent/ProductoEditarComponent";
 
 // Gesion ordenes
-import VentasListComponent from "../VentaComponents/VentasListComponent";
-import DetalleVentaPorUsuarioComponent from "../VentaComponents/DetalleVentaPorUsuarioComponent";
-import VerMasVentas from "../VentaComponents/VerMasVentas";
+import VentasListComponent from "./Components/VentaComponents/VentasListComponent";
+import DetalleVentaPorUsuarioComponent from "./Components/VentaComponents/DetalleVentaPorUsuarioComponent";
+import VerMasVentas from "./Components/VentaComponents/VerMasVentas";
 // Routing private
-import PrivateRoute from "../routing/PrivateRoute";
-import PrivateRouteUsuario from "../routing/PrivateRouteUsuario";
-import Checkout from "../VentaComponents/Checkout";
-import VentasDeHoy from "../VentaComponents/VentasDeHoy";
+import PrivateRoute from "./Components/routing/PrivateRoute";
+import PrivateRouteUsuario from "./Components/routing/PrivateRouteUsuario";
+import Checkout from "./Components/VentaComponents/Checkout";
+import VentasDeHoy from "./Components/VentaComponents/VentasDeHoy";
 
 //Gestion comentarios
-import GestionComentariosComponent from "../ComentariosComponents/GestionComentariosComponent";
+import GestionComentariosComponent from "./Components/ComentariosComponents/GestionComentariosComponent";
 
 //Reportes
-import IngresosBrutos from "../ReportesComponets/IngresosBrutosMesComponents";
-import VarietalMasVendidoComponents from "../ReportesComponets/VarietalMasVendidoComponents";
-import CantiadProdVendidosPorMes from "../ReportesComponets/CantiadProdVendidosPorMes";
+import IngresosBrutos from "./Components/ReportesComponets/IngresosBrutosMesComponents";
+import VarietalMasVendidoComponents from "./Components/ReportesComponets/VarietalMasVendidoComponents";
+import CantiadProdVendidosPorMes from "./Components/ReportesComponets/CantiadProdVendidosPorMes";
 
 //Ofertas
-import OfertaCrear from "../OfertasComponents/OfertaCrear";
-import GestionOfertas from "../OfertasComponents/GestionOfertas";
+import OfertaCrear from "./Components/OfertasComponents/OfertaCrear";
+import GestionOfertas from "./Components/OfertasComponents/GestionOfertas";
 
 //Inicio
-import InicioComponent from "../InicioComponents/InicioComponent";
+import InicioComponent from "./Components/InicioComponents/InicioComponent";
 
 //Novedades
-import GestionNovedades from "../NovedadesComponent/GestionNovedades";
-import NovedadCrearComponent from "../NovedadesComponent/NovedadCrearComponent";
-import ProbandoForm from "../ProductosComponent/ProbandoForm";
-import TerminosYCondiciones from "../TerminosYCondiciones";
-import GestionBodegas from "../ProductosComponent/GestionBodegas";
-import GesitonVarietal from "../ProductosComponent/GesitonVarietal";
-import { GestionTipos } from "../ProductosComponent/GestionTipos";
+import GestionNovedades from "./Components/NovedadesComponent/GestionNovedades";
+import NovedadCrearComponent from "./Components/NovedadesComponent/NovedadCrearComponent";
+import ProbandoForm from "./Components/ProductosComponent/ProbandoForm";
+import TerminosYCondiciones from "./Components/TerminosYCondiciones";
+import GestionBodegas from "./Components/ProductosComponent/GestionBodegas";
+import GesitonVarietal from "./Components/ProductosComponent/GesitonVarietal";
+import { GestionTipos } from "./Components/ProductosComponent/GestionTipos";
 
 const styles = makeStyles((theme) => ({
   root: {

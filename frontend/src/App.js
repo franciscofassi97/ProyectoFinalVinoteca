@@ -1,5 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
-import ContenedorComponent from "./Components/MenuComponents/ContenedorComponent";
+import ContenedorComponent from "./ContenedorComponent";
 
 const App = () => {
   return (

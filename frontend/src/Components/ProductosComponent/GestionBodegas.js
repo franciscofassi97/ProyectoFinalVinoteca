@@ -52,7 +52,6 @@ const GestionBodegas = () => {
     {
       title: "Bodega",
       field: "nombreBodega",
-      align: "center",
     },
     {
       title: "Descripcion",
