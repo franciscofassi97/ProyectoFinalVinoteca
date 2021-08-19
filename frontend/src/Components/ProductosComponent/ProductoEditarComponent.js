@@ -55,8 +55,8 @@ const ProductoEditarComponent = (props) => {
   const getVarietale = useSelector((state) => state.getVarietal);
   const { varietal } = getVarietale;
 
-  const getBodegasState = useSelector((state) => state.getBodega);
-  const { bodega } = getBodegasState;
+  const getBodegasState = useSelector((state) => state.getBodegas);
+  const { bodegas } = getBodegasState;
 
   //Parametro id
   const params = useParams();
@@ -249,13 +249,13 @@ const ProductoEditarComponent = (props) => {
           </div>
 
           <div>
-            {bodega ? (
+            {bodegas ? (
               <select
                 onChange={(event) => onComboChange(event, "bodega")}
                 type="text"
               >
                 <option value={bodegaCombo}>{selectedBodega}</option>
-                {bodega.map((bodega, index) => {
+                {bodegas.map((bodega, index) => {
                   return (
                     <option key={index} value={bodega._id}>
                       {bodega.nombreBodega}

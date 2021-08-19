@@ -130,7 +130,7 @@ const ContenedorComponent = () => {
             />
             <PrivateRoute
               exact
-              path="/productocrear/:idProducto"
+              path="/producto/editar/:idProducto"
               component={ProductoEditarComponent}
             />
             {/* <PrivateRoute

@@ -1,14 +1,16 @@
-import { Container, IconButton } from "@material-ui/core";
+import { Container, IconButton, Typography } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import MaterialTable from "material-table";
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Edit } from "@material-ui/icons";
 import AddIcon from "@material-ui/icons/Add";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-
+import DeleteOutlineTwoToneIcon from "@material-ui/icons/DeleteOutlineTwoTone";
+import { useTheme } from "@material-ui/core/styles";
+import DetailsIcon from "@material-ui/icons/Details";
 //Action
 import {
   getProductos,
@@ -28,8 +30,15 @@ import {
   ELMINIAR_OFERTA_RESET,
   OFERTA_CREAR_RESET,
 } from "../../redux/constants/ofertasConstants";
+import Modal from "../ModalComponent/Modal";
+import ProductosCrearEditar from "./ProductosCrearEditar";
+import ShowAlert from "../ModalComponent/ShowAlert";
 
 const GestionProductosComponent = () => {
+  const theme = useTheme();
+  const [openModal, setOpenModal] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
+
   const getTodosLosProductos = useSelector((state) => state.getProductos);
   const {
     productos: allProductos,
@@ -45,7 +54,11 @@ const GestionProductosComponent = () => {
   } = eliminarProductoState;
 
   const productoCrearState = useSelector((state) => state.crearProducto);
-  const { success: successCrear, loading: loadingCrear } = productoCrearState;
+  const {
+    success: successCrear,
+    loading: loadingCrear,
+    error: errorCrear,
+  } = productoCrearState;
 
   const crearOfertaState = useSelector((state) => state.newOferta);
   const { success: successOferta } = crearOfertaState;
@@ -66,23 +79,28 @@ const GestionProductosComponent = () => {
 
   useEffect(() => {
     if (
-      !allProductos ||
       successCrear ||
       successActualizar ||
       successOferta ||
       successEliminarOferta
     ) {
       dispatch(getProductos());
+      setOpenAlert(true);
+      setOpenModal(false);
+
       dispatch({ type: PRODUCTO_CREAR_RESET });
       dispatch({ type: PRODUCTO_ACTUALIZAR_RESET });
       dispatch({ type: OFERTA_CREAR_RESET });
       dispatch({ type: ELMINIAR_OFERTA_RESET });
-    } else if (successEliminar) {
+    } else {
+      dispatch(getProductos());
+    }
+
+    if (successEliminar) {
       alert("Se elimino un producto con exito");
       dispatch({ type: PRODUCTO_ELIMINAR_RESET });
     }
   }, [
-    allProductos,
     dispatch,
     successActualizar,
     successCrear,
@@ -91,7 +109,7 @@ const GestionProductosComponent = () => {
     successOferta,
   ]);
 
-  const handlerEliminar = (idProducto) => {
+  const handleEliminar = (idProducto) => {
     dispatch(eliminarProducto(idProducto));
   };
 
@@ -100,7 +118,7 @@ const GestionProductosComponent = () => {
 
     { title: "Varietal", field: "nombreVarietal" },
 
-    { title: "Precio", field: "precio", type: "numeric" },
+    { title: "Precio", field: "precio", type: "currency" },
   ];
 
   const table = () => (
@@ -116,43 +134,42 @@ const GestionProductosComponent = () => {
                 icon: () => (
                   <IconButton
                     component={Link}
-                    to={`/productocrear/${rowData._id}`}
+                    to={`/producto/editar/${rowData._id}`}
                   >
-                    <Edit />
+                    <DetailsIcon />
                   </IconButton>
                 ),
                 tooltip: "editar ",
                 onClick: rowData,
               }),
-              {
-                icon: "delete",
-                tooltip: "Eliminar Producto",
-                onClick: (event, rowData) => handlerEliminar(rowData._id),
-              },
+              (rowData) => ({
+                icon: () => (
+                  <IconButton color="secondary">
+                    <DeleteOutlineTwoToneIcon />
+                  </IconButton>
+                ),
+                tooltip: "Eliminar",
+                onClick: (event, rowData) => handleEliminar(rowData._id),
+              }),
               {
                 icon: () => (
-                  <IconButton component={Link} to="/productocrear">
+                  <IconButton
+                    color="primary"
+                    onClick={() => setOpenModal(true)}
+                  >
                     <AddIcon />
                   </IconButton>
                 ),
                 isFreeAction: true,
                 tooltip: "Crear Producto",
               },
-              // (rowData) => ({
-              //   icon: () => (
-              //     <IconButton
-              //       component={Link}
-              //       to={`/ofertas/crear/${rowData._id}`}
-              //     >
-              //       <AttachMoneyIcon />
-              //     </IconButton>
-              //   ),
-              //   tooltip: "Crear Oferta ",
-              //   onClick: rowData,
-              // }),
               {
                 icon: () => (
-                  <IconButton component={Link} to="/gestion/ofertas">
+                  <IconButton
+                    color="primary"
+                    component={Link}
+                    to="/gestion/ofertas"
+                  >
                     <AttachMoneyIcon />
                   </IconButton>
                 ),
@@ -162,11 +179,26 @@ const GestionProductosComponent = () => {
             ]}
             options={{
               actionsColumnIndex: -1,
+              tableLayout: "auto",
+              pageSizeOptions: [5, 10],
+              exportButton: true,
+              exportAllData: true,
+              rowStyle: (rowData, index) => ({
+                backgroundColor: index % 2 !== 0 ? "#f5f5f5" : null,
+              }),
+              headerStyle: {
+                backgroundColor: theme.palette.info.light,
+                fontSize: theme.typography.h6.fontSize,
+                color: theme.palette.primary.main,
+              },
             }}
             localization={{
               header: {
                 actions: "Acciones",
               },
+            }}
+            style={{
+              fontFamily: theme.typography.fontFamily,
             }}
           />
         </Grid>
@@ -176,7 +208,48 @@ const GestionProductosComponent = () => {
 
   return (
     <div>
-      {loadingCrear ||
+      {loadingAllProductos ? (
+        <Modal title="Cargando" openModal={true}>
+          <LoadingBox></LoadingBox>
+        </Modal>
+      ) : errorAllProductos ? (
+        <Typography variant="h6" color="error">
+          Error al cargar los Productos
+        </Typography>
+      ) : (
+        <div>{table()}</div>
+      )}
+
+      {loadingCrear ? (
+        <Modal title="Agregar Producto" openModal={true}>
+          <LoadingBox></LoadingBox>
+        </Modal>
+      ) : errorCrear ? (
+        <Modal title="Error" openModal={true}>
+          <Typography variant="h6" color="error">
+            Se ha producido un error
+          </Typography>
+        </Modal>
+      ) : (
+        <div>
+          <Modal
+            title="Agregar Producto"
+            openModal={openModal}
+            setOpenModal={setOpenModal}
+          >
+            <ProductosCrearEditar />
+          </Modal>
+
+          <ShowAlert
+            message="Se creo exitosamente"
+            severity="success"
+            setOpenAlert={setOpenAlert}
+            openAlert={openAlert}
+          />
+        </div>
+      )}
+
+      {/* {loadingCrear ||
       loadingActualizar ||
       loadingAllProductos ||
       loadingEliminar ? (
@@ -185,7 +258,7 @@ const GestionProductosComponent = () => {
         <h1>Error</h1>
       ) : (
         <div>{table()}</div>
-      )}
+      )} */}
     </div>
   );
 };

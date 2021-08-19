@@ -9,7 +9,7 @@ import * as actionTypes from "../constants/productosConstants";
 //IMPORTANTE LAS LISTAS TIENEN UN ESTADO INCIAL DE ARREGLO, REPENSAR EL USEEFFECT EN BASE
 //AL ELSE
 
-export const getProductosReducer = (state = { loading: true }, action) => {
+export const getProductosReducer = (state = { productos: [] }, action) => {
   switch (action.type) {
     case actionTypes.GET_PRODUCTOS_REQUEST:
       return {

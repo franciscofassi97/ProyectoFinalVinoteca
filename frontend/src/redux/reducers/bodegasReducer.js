@@ -24,7 +24,7 @@ export const bodegaCrearReducer = (state = { bodega: {} }, action) => {
   }
 };
 
-export const getBodegasReducer = (state = {}, action) => {
+export const getBodegasReducer = (state = { bodegas: [] }, action) => {
   switch (action.type) {
     case actionTypes.GET_BODEGA_REQUEST:
       return {

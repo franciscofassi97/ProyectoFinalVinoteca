@@ -14,7 +14,6 @@ import { getBodegas } from "../../redux/action/bodegasActions";
 
 //Materia ui
 import {
-  Avatar,
   Button,
   Container,
   CssBaseline,
@@ -22,31 +21,36 @@ import {
   FormControl,
   Grid,
   InputLabel,
-  Paper,
   Select,
   TextField,
-  Typography,
 } from "@material-ui/core";
 import { makeStyles, MenuItem } from "@material-ui/core";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
+
 import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
+  // paper: {
+  //   marginTop: theme.spacing(2),
+  //   display: "flex",
+  //   flexDirection: "column",
+  //   alignItems: "center",
+  //   width: "100%",
+  // },
+  form: {
     marginTop: theme.spacing(2),
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
-    width: "100%",
+    margin: "auto",
+    width: "fit-content",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.primary.main,
   },
-  form: {
-    width: "80%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
+  // form: {
+  //   width: "80%", // Fix IE 11 issue.
+  //   marginTop: theme.spacing(3),
+  // },
   submit: {
     margin: theme.spacing(3, 0, 2),
     marginRight: theme.spacing(1),
@@ -69,8 +73,8 @@ const ProductosCrearEditar = (props) => {
   const getVarietale = useSelector((state) => state.getVarietal);
   const { varietal } = getVarietale;
 
-  const getBodegasState = useSelector((state) => state.getBodega);
-  const { bodega } = getBodegasState;
+  const getBodegasState = useSelector((state) => state.getBodegas);
+  const { bodegas } = getBodegasState;
 
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -96,13 +100,7 @@ const ProductosCrearEditar = (props) => {
     dispatch(getTipoVinos());
     dispatch(getVarietales());
     dispatch(getBodegas());
-
-    if (successCrear) {
-      alert("Se creo un producto con exito");
-
-      props.history.push("/gestionProductos");
-    }
-  }, [dispatch, successCrear, props.history]);
+  }, [dispatch]);
 
   // Agregar nuevo Producto
   const submitHandler = (e) => {
@@ -159,237 +157,237 @@ const ProductosCrearEditar = (props) => {
   const formProductosNew = () => (
     <Container component="main">
       <CssBaseline />
-      <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <AddCircleIcon />
-        </Avatar>
-        <Typography component="h1" variant="h6">
-          Agregar Producto
-        </Typography>
-        <form
-          className={classes.form}
-          noValidate
-          onSubmit={submitHandler}
-          encType="multipart/form-data"
-        >
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                autoComplete="fname"
-                name="producto"
-                variant="outlined"
-                required
-                fullWidth
-                id="producto"
-                label="Nombre Producto"
-                autoFocus
-                size="small"
-                value={nombre}
-                onChange={(event) => imputsChange(event, "nombre")}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                type="number"
-                InputProps={{
-                  inputProps: {
-                    min: 0,
-                  },
-                }}
-                required
-                fullWidth
-                id="precio"
-                label="Precio"
-                name="precio"
-                size="small"
-                value={precio}
-                onChange={(event) => imputsChange(event, "precio")}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                type="number"
-                InputProps={{
-                  inputProps: {
-                    min: 0,
-                  },
-                }}
-                required
-                fullWidth
-                id="stock"
-                label="Stock"
-                name="stock"
-                size="small"
-                value={stock}
-                onChange={(event) => imputsChange(event, "stock")}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                type="number"
-                InputProps={{
-                  inputProps: {
-                    min: 0,
-                  },
-                }}
-                required
-                fullWidth
-                id="contenidoNeto"
-                label="Contendio Neto"
-                name="contenidoNeto"
-                size="small"
-                value={contendioNeto}
-                onChange={(event) => imputsChange(event, "contenidoNeto")}
-              />
-            </Grid>
-
-            {/* Select  */}
-            <Grid item xs={12} sm={6}>
-              <FormControl variant="outlined" fullWidth size="small">
-                <InputLabel id="tipoDeVino">Tipo de Vino</InputLabel>
-                <Select
-                  labelId="tipoDeVino"
-                  id="tipoDeVino"
-                  label="Tipo de Vino"
-                  size="small"
-                  onChange={(event) => onComboChange(event, "tipoVino")}
-                >
-                  <MenuItem value={tipoVinoCombo}>
-                    <em>{selectedTipoVino}</em>
-                  </MenuItem>
-                  {tipoVino.map((tipo, idenx) => {
-                    return (
-                      <MenuItem key={idenx} value={tipo._id}>
-                        {" "}
-                        {tipo.nombreTipo}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <FormControl variant="outlined" fullWidth size="small">
-                <InputLabel id="varietal">Varietal</InputLabel>
-                <Select
-                  labelId="varietal"
-                  id="varietal"
-                  label="Varietal"
-                  size="small"
-                  onChange={(event) => onComboChange(event, "varietal")}
-                >
-                  <MenuItem value={varietalCombo}>
-                    <em>{selectedVarietal}</em>
-                  </MenuItem>
-                  {varietal.map((varietal, idenx) => {
-                    return (
-                      <MenuItem key={idenx} value={varietal._id}>
-                        {" "}
-                        {varietal.nombreVarietal}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <FormControl variant="outlined" fullWidth size="small">
-                <InputLabel id="bodega">Bodega</InputLabel>
-
-                <Select
-                  labelId="bodega"
-                  id="bodega"
-                  label="Bodega"
-                  onChange={(event) => onComboChange(event, "bodega")}
-                >
-                  <MenuItem value={bodegaCombo}>
-                    <em>{selectedBodega}</em>
-                  </MenuItem>
-                  {bodega.map((bodega, idenx) => {
-                    return (
-                      <MenuItem key={idenx} value={bodega._id}>
-                        {" "}
-                        {bodega.nombreBodega}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                id="outlined-multiline-static"
-                label="Descripcion"
-                multiline
-                fullWidth
-                rows={3}
-                variant="outlined"
-                size="small"
-                value={descripcion}
-                onChange={(event) => imputsChange(event, "descripcion")}
-              />
-            </Grid>
-
-            {/* IAMGEN */}
-            <Grid item xs={12}>
-              <label htmlFor="imagenUrl">
-                <input
-                  style={{ display: "none" }}
-                  id="imagenUrl"
-                  type="file"
-                  onChange={(event) => handleChangeImagen(event, "imagenUrl")}
-                  accept="image/*"
-                  name="imagenUrl"
-                  required
-                />
-
-                <Fab
-                  color="primary"
-                  size="small"
-                  component="span"
-                  aria-label="add"
-                  variant="extended"
-                >
-                  <AddIcon /> Agregar Imagen...
-                </Fab>
-              </label>
-            </Grid>
+      {/* <Paper className={classes.paper}> */}
+      {/* <Avatar className={classes.avatar}>
+        <AddCircleIcon />
+      </Avatar> */}
+      {/* <Typography component="h1" variant="h6">
+        Agregar Producto
+      </Typography> */}
+      <form
+        className={classes.form}
+        noValidate
+        onSubmit={submitHandler}
+        encType="multipart/form-data"
+      >
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <TextField
+              autoComplete="fname"
+              name="producto"
+              variant="outlined"
+              required
+              fullWidth
+              id="producto"
+              label="Nombre Producto"
+              autoFocus
+              size="small"
+              value={nombre}
+              onChange={(event) => imputsChange(event, "nombre")}
+            />
           </Grid>
 
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Button
-                variant="outlined"
-                color="secondary"
-                className={classes.submit}
-                onClick={() => handleCancelar()}
-              >
-                Cancelar
-              </Button>
-            </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              variant="outlined"
+              type="number"
+              InputProps={{
+                inputProps: {
+                  min: 0,
+                },
+              }}
+              required
+              fullWidth
+              id="precio"
+              label="Precio"
+              name="precio"
+              size="small"
+              value={precio}
+              onChange={(event) => imputsChange(event, "precio")}
+            />
+          </Grid>
 
-            <Grid item>
-              <Button
-                type="submit"
-                variant="outlined"
+          <Grid item xs={12} sm={6}>
+            <TextField
+              variant="outlined"
+              type="number"
+              InputProps={{
+                inputProps: {
+                  min: 0,
+                },
+              }}
+              required
+              fullWidth
+              id="stock"
+              label="Stock"
+              name="stock"
+              size="small"
+              value={stock}
+              onChange={(event) => imputsChange(event, "stock")}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <TextField
+              variant="outlined"
+              type="number"
+              InputProps={{
+                inputProps: {
+                  min: 0,
+                },
+              }}
+              required
+              fullWidth
+              id="contenidoNeto"
+              label="Contendio Neto"
+              name="contenidoNeto"
+              size="small"
+              value={contendioNeto}
+              onChange={(event) => imputsChange(event, "contenidoNeto")}
+            />
+          </Grid>
+
+          {/* Select  */}
+          <Grid item xs={12} sm={6}>
+            <FormControl variant="outlined" fullWidth size="small">
+              <InputLabel id="tipoDeVino">Tipo de Vino</InputLabel>
+              <Select
+                labelId="tipoDeVino"
+                id="tipoDeVino"
+                label="Tipo de Vino"
+                size="small"
+                onChange={(event) => onComboChange(event, "tipoVino")}
+              >
+                <MenuItem value={tipoVinoCombo}>
+                  <em>{selectedTipoVino}</em>
+                </MenuItem>
+                {tipoVino.map((tipo, idenx) => {
+                  return (
+                    <MenuItem key={idenx} value={tipo._id}>
+                      {" "}
+                      {tipo.nombreTipo}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <FormControl variant="outlined" fullWidth size="small">
+              <InputLabel id="varietal">Varietal</InputLabel>
+              <Select
+                labelId="varietal"
+                id="varietal"
+                label="Varietal"
+                size="small"
+                onChange={(event) => onComboChange(event, "varietal")}
+              >
+                <MenuItem value={varietalCombo}>
+                  <em>{selectedVarietal}</em>
+                </MenuItem>
+                {varietal.map((varietal, idenx) => {
+                  return (
+                    <MenuItem key={idenx} value={varietal._id}>
+                      {" "}
+                      {varietal.nombreVarietal}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <FormControl variant="outlined" fullWidth size="small">
+              <InputLabel id="bodega">Bodega</InputLabel>
+
+              <Select
+                labelId="bodega"
+                id="bodega"
+                label="Bodega"
+                onChange={(event) => onComboChange(event, "bodega")}
+              >
+                <MenuItem value={bodegaCombo}>
+                  <em>{selectedBodega}</em>
+                </MenuItem>
+                {bodegas.map((bodega, idenx) => {
+                  return (
+                    <MenuItem key={idenx} value={bodega._id}>
+                      {" "}
+                      {bodega.nombreBodega}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12}>
+            <TextField
+              id="outlined-multiline-static"
+              label="Descripcion"
+              multiline
+              fullWidth
+              rows={3}
+              variant="outlined"
+              size="small"
+              value={descripcion}
+              onChange={(event) => imputsChange(event, "descripcion")}
+            />
+          </Grid>
+
+          {/* IAMGEN */}
+          <Grid item xs={12}>
+            <label htmlFor="imagenUrl">
+              <input
+                style={{ display: "none" }}
+                id="imagenUrl"
+                type="file"
+                onChange={(event) => handleChangeImagen(event, "imagenUrl")}
+                accept="image/*"
+                name="imagenUrl"
+                required
+              />
+
+              <Fab
                 color="primary"
-                className={classes.submit}
+                size="small"
+                component="span"
+                aria-label="add"
+                variant="extended"
               >
-                Crear
-              </Button>
-            </Grid>
+                <AddIcon /> Agregar Imagen...
+              </Fab>
+            </label>
           </Grid>
-        </form>
-      </Paper>
+        </Grid>
+
+        <Grid container justifyContent="flex-end">
+          <Grid item>
+            <Button
+              variant="outlined"
+              color="secondary"
+              className={classes.submit}
+              onClick={() => handleCancelar()}
+            >
+              Cancelar
+            </Button>
+          </Grid>
+
+          <Grid item>
+            <Button
+              type="submit"
+              variant="outlined"
+              color="primary"
+              className={classes.submit}
+            >
+              Crear
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
+      {/* </Paper> */}
     </Container>
   );
 

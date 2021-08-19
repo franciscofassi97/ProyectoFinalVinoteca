@@ -115,6 +115,11 @@ const GestionBodegas = () => {
             style={{
               fontFamily: theme.typography.fontFamily,
             }}
+            localization={{
+              header: {
+                actions: "Acciones",
+              },
+            }}
           />
         </Grid>
       </Grid>
@@ -128,7 +133,9 @@ const GestionBodegas = () => {
           <LoadingBox></LoadingBox>
         </Modal>
       ) : errorBodegas ? (
-        <h1>Error al cargar las Bodegas</h1>
+        <Typography variant="h6" color="error">
+          Error al cargar las Bodegas
+        </Typography>
       ) : (
         <div>{tabla()}</div>
       )}

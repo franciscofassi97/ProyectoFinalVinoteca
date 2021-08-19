@@ -7,10 +7,15 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Typography from "@material-ui/core/Typography";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { useTheme } from "@material-ui/core";
 
 const Modal = ({ title, openModal, children, setOpenModal }) => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
-    <Dialog open={openModal}>
+    <Dialog open={openModal} fullScreen={fullScreen}>
       <DialogTitle id="">
         <div style={{ display: "flex" }}>
           <Typography
